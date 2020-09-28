@@ -7,7 +7,7 @@ Library  JSONLibrary
 Library  Collections
 
 *** Variables ***
-
+${URL}
 
 
 *** Test Cases ***
@@ -28,9 +28,17 @@ My HomeWork1
     #1.2 new
     Should Be Equal     ${my_reponse.headers['Doppio-Header']}      DoppioFamilyTraining   #check headers means new
     Should Be Equal     ${my_reponse.headers['Content-Type']}       application/json       #check headers means new
-    #1.3
+
+
+    #1.3                                                #####แก้การบ้าน#####
     ${my_response_json}=    Convert String To JSON     ${my_reponse.content}
-    Should Not Be Empty     ${my_response_json}
+
+    FOR     ${checkAsset}   IN      @{my_response_json}
+        ${checkAssetresults}=   Evaluate    '${checkAsset['assetId']}'or'${checkAsset['assetName']}'or'${checkAsset['assetType']}' != ''
+        #Log To Console  ${checkAssetresults}
+    END
+
+
 
     #1.4
     FOR     ${people}   IN      @{my_response_json}  #Start For loop
@@ -40,16 +48,27 @@ My HomeWork1
     Should Be Equal      '${results}'  'True'
     END        #end loop
 
+
+
 My HomeWork2
     ${header}=  Create Dictionary   Content-Type=application/json
     Create Session      PostAssets     ${URL}
-    ${my_post}=        POST Request     PostAssets      /assets    data={"assetId": "a14", "assetName":"14", "assetType":14, "inUse": true}     headers=${header}
-    #2.1
+    ${my_post}=        POST Request     PostAssets      /assets    data={"assetId": "a14444", "assetName":"14444", "assetType":14, "inUse": true}     headers=${header}
+
+
+
+    #2.1                        #####แก้การบ้าน######
+    Should Be Equal As Integers     ${my_post.status_code}      200      #check status = 200
     Log To Console  ${my_post.status_code}
-    log to console  ${my_post.content}
-    #2.2
-    ${status_body}=    convert to string    ${my_post.content}
-    should contain  ${status_body}  success
+
+
+
+    #2.2                        #####แก้การบ้าน#####
+    ${status_body}=    convert String to JSON    ${my_post.content}
+    Should Be Equal     ${status_body['status']}    success
+
+
+
     #2.3
     Create Session      getpostlast     ${URL}
     ${getpost_last}=     Get Request   getpostlast   /assets

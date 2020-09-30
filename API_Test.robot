@@ -16,7 +16,7 @@ Homework5
     ${my_response_json}=    Convert String To JSON     ${myresponse.content}
     #5.1    HTTP Status code
     Should Be Equal As Integers     ${my_response.status_code}      200      #check status = 200
-    #Log To Console      ${myresponse.content}
+
 
 
     #5.2    Response Return type
@@ -25,23 +25,18 @@ Homework5
 
 
     #5.3    Response Data type
-    ${checktype_id}=  Evaluate    type(${my_response_json[0]['id']})
-    Log To Console      ${checktype_id}
-    ${results_name}=   Evaluate    isinstance(${my_response_json[0]['id']}, int)
-    Should Be True  ${results_name}
+    ${checktype_id}=    Evaluate     type(${my_response_json[0]['id']})
+    ${results_name}=    Evaluate     isinstance(${my_response_json[0]['id']}, int)
+    Should Be True      ${results_name}
     Log To Console      ${results_name}
 
-    ${checktype_address}=  Evaluate    type(${my_response_json[0]['address']})
-    Log To Console      ${checktype_id}
-    ${results_address}=   Evaluate    isinstance(${my_response_json[0]['address']}, dict)
-    Should Be True  ${results_address}
+    ${checktype_address}=  Evaluate     type(${my_response_json[0]['address']})
+    ${results_address}=   Evaluate      isinstance(${my_response_json[0]['address']}, dict)
+    Should Be True      ${results_address}
     Log To Console      ${results_address}
 
-
-
-
-    #5.4     Response Data size
-    ${length}=     Get Length   ${my_response_json}  #นับ arry
+    #5.4    Response Data size
+    ${length}=     Get Length   ${my_response_json}
     Log To Console      ${length}
 
 Homework6

@@ -36,8 +36,11 @@ Homework5
     Log To Console      ${results_address}
 
     #5.4    Response Data size
-    ${length}=     Get Length   ${my_response_json}
-    Log To Console      ${length}
+    ${length_json}=     Get Length   ${my_response_json}
+    Log To Console      ${length_json}
+    ${compare_result}=  evaluate    ${length_json} > 1
+    Should Be Equal     '${compare_result}'   'True'
+
 
 Homework6
     ${header}=  Create Dictionary   Content-Type=application/json; charset=utf-8

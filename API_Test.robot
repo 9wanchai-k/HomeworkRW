@@ -14,17 +14,17 @@ Homework5
     Create Session      GetAssets     ${URL}
     ${my_response}=     Get Request    GetAssets     /users
     ${my_response_json}=    Convert String To JSON     ${myresponse.content}
-    #5.1
+    #5.1    HTTP Status code
     Should Be Equal As Integers     ${my_response.status_code}      200      #check status = 200
     #Log To Console      ${myresponse.content}
 
 
-    #5.2
+    #5.2    Response Return type
     ${check_headers} =        get from dictionary     ${my_response.headers}   Content-Type    #check key
     Should Be Equal     ${check_headers}  application/json; charset=utf-8    #check value
 
 
-    #5.3
+    #5.3    Response Data type
     ${checktype_id}=  Evaluate    type(${my_response_json[0]['id']})
     Log To Console      ${checktype_id}
     ${results_name}=   Evaluate    isinstance(${my_response_json[0]['id']}, int)
@@ -40,7 +40,7 @@ Homework5
 
 
 
-    #5.4
+    #5.4     Response Data size
     ${length}=     Get Length   ${my_response_json}  #นับ arry
     Log To Console      ${length}
 
@@ -49,18 +49,18 @@ Homework6
     Create Session      PostAssets     ${URL}
     ${my_post}=        POST Request     PostAssets      /posts    data={"title":"foo","body":"bar","userId":1}     headers=${header}
 
-    #6.1
+    #6.1    HTTP Status code
     Log To Console     ${my_post.status_code}
     Should Be Equal As Integers     ${my_post.status_code}      201
 
-    #6.2
+    #6.2    Response Header
     ${check_headers_Content} =        get from dictionary     ${my_post.headers}   Content-Type    #check key
     Should Be Equal     ${check_headers_Content}  application/json; charset=utf-8    #check value
     ${check_headers_xby} =        get from dictionary     ${my_post.headers}   X-Powered-By    #check key
     Should Be Equal     ${check_headers_xby}  Express    #check value
 
 
-    #6.3
+    #6.3    Response match with Request
     ${responsePost_json}=    Convert String To JSON     ${my_post.content}
     Should Be Equal     ${responsePost_json['title']}   foo
     Should Be Equal     ${responsePost_json['body']}    bar
